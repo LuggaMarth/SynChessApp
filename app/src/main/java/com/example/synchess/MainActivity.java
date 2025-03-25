@@ -150,9 +150,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDragAndDrop() {
-        // Set touch listener for chess pieces
-
-        // Set drag listener for chessboard
         chessboard.setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View v, DragEvent event) {
@@ -160,27 +157,16 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (event.getAction()) {
                     case DragEvent.ACTION_DRAG_STARTED:
-                        // Get the drop coordinates
                         float x = event.getX();
                         float y = event.getY();
 
-                        // Calculate the target cell based on x and y
                         startX = (int) (event.getY() / (chessboard.getHeight() / 8.0));
                         startY = (int) (event.getX() / (chessboard.getWidth() / 8.0));
                         return true;
-                    case DragEvent.ACTION_DRAG_ENTERED:
-                        return true;
-                    case DragEvent.ACTION_DRAG_LOCATION:
-                        return true;
-                    case DragEvent.ACTION_DRAG_EXITED:
-                        return true;
                     case DragEvent.ACTION_DROP:
 
-                        // Calculate the target cell based on x and y
                         endX = (int) (event.getY() / (chessboard.getHeight() / 8.0));
                         endY = (int) (event.getX() / (chessboard.getWidth() / 8.0));
-                        // Move the piece to the new position
-                        Log.d("Drop", "End: " + endX + ", " + endY + " | Start:" + startX + ", " + startY);
                         chessUtils.setTempTile(startX, startY, Pieces.NONE);
                         chessUtils.setTempTile(endX, endY, chessUtils.board[startX][startY]);
 
@@ -199,13 +185,7 @@ public class MainActivity extends AppCompatActivity {
                         } catch (ChessException e) {
                             privLog(e.toString());
                         }
-
-
                         return true;
-                    case DragEvent.ACTION_DRAG_ENDED:
-                        return true;
-                    default:
-                        break;
                 }
                 return false;
             }
@@ -217,20 +197,13 @@ public class MainActivity extends AppCompatActivity {
         RelativeLayout previousView = (RelativeLayout) piece.getParent();
         //Log.d("movePiece", "Moving piece from" + previousView + " to " + view );
 
-
-
         if(previousView != null)
             previousView.removeView(piece);
-
-
 
         if (view.getChildAt(0) != null)
             view.removeView(view.getChildAt(0));
 
-
         view.addView(piece);
-
-
 
     }
     private void movePiece(int startRow, int startCol, int targetRow, int targetCol) {
@@ -239,7 +212,6 @@ public class MainActivity extends AppCompatActivity {
         ((RelativeLayout) piece.getParent()).removeView(piece);
         target.addView(piece);
     }
-    
 
     private void displayMove(Move m){
         ImageView piece = (ImageView) ((RelativeLayout) chessboard.getChildAt(m.getStartX() * chessboard.getColumnCount() + m.getStartY())).getChildAt(0);
